@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import { AppBar, Toolbar, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles';
-import logo from '../Assests/logo.PNG'
+import logo from '../Assets/logo.PNG'
 
 const useStyles = makeStyles({
     link: {
