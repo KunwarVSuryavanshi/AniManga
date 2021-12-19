@@ -4,7 +4,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 import { Button } from '@mui/material';
 import { makeStyles } from '@mui/styles'
 import { useNavigate } from 'react-router-dom'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const useStyles = makeStyles({
   heading: {
@@ -16,15 +16,19 @@ const useStyles = makeStyles({
 
 function App() {
   const classes = useStyles()
-
+  const [tempFix, setTempFix] = useState(false)
   const {
     loginWithRedirect,
+    loginWithPopup,
     isAuthenticated
   } = useAuth0()
 
   const navigate = useNavigate()
-
+  const someFunc = () => {
+    navigate('/home'); setTempFix(true) 
+  }
   useEffect(() => {
+    console.log(isAuthenticated)
     if(isAuthenticated)
     {
       navigate('/home')
@@ -36,13 +40,15 @@ function App() {
 
   return (
     <div>
-      {!isAuthenticated &&
+      {/* {(!isAuthenticated || !tempFix) &&
         <div className={classes.heading}>
           <h1>Ayye yo fam !<br/>You gotta login man.</h1>
-          <Button variant="contained" onClick={() => loginWithRedirect()}>Login</Button>
+          <Button variant="contained" onClick={() => { //loginWithRedirect(); 
+            someFunc()}}>Login</Button>
         </div>
       }
-      {isAuthenticated && <NavBar/>}
+      {(isAuthenticated || tempFix )&& } */}
+      <NavBar/>
     </div>
   );
 }

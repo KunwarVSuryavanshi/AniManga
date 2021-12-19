@@ -11,10 +11,6 @@ function AnimeFacts() {
     setFacts(data)
   },[])
 
-  useEffect(() => {
-    console.log("Facts ----->",facts)
-  },[facts])
-
   return (
     <div>
       <Typography mt={2}>  
