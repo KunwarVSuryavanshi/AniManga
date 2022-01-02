@@ -8,6 +8,8 @@ import HomePage from './Components/HomePage';
 import AnimePage from './Components/AnimePage';
 import MangaPage from './Components/MangaPage';
 import { Auth0Provider } from '@auth0/auth0-react'
+import { Provider } from 'react-redux'
+import store from './Redux/Store/ConfigStore'
 
 const domain = process.env.REACT_APP_AUTH_DOMAIN
 const clientID = process.env.REACT_APP_AUTH_CLIENTID
@@ -18,14 +20,16 @@ ReactDOM.render(
     clientId={clientID}
     redirectUri={window.location.origin}
   >
-    <BrowserRouter>
-    <App/>
-      <Routes>
-        <Route exact path='/home' element={<HomePage/>}/>
-        <Route exact path='/anime' element={<AnimePage/>}/>
-        <Route exact path='/manga' element={<MangaPage/>}/>
-      </Routes>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App/>
+        <Routes>
+          <Route exact path='/home' element={<HomePage/>}/>
+          <Route exact path='/anime' element={<AnimePage/>}/>
+          <Route exact path='/manga' element={<MangaPage/>}/>
+        </Routes>
+      </BrowserRouter>
+    </Provider>
   </Auth0Provider>,
   document.getElementById('root')
 );

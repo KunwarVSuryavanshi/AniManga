@@ -1,9 +1,10 @@
 import axios from "axios";
+import { GetAniApiActionError, GetAniApiActionPending, GetAniApiActionSuccess } from "../Redux/Actions/GetAniApi.action";
 
-export default function getAniApi(payload){
-  let data = axios
-  .get('https://api.aniapi.com/v1/anime')
-  .then(res => res.data)
-  .catch(err => err.message)
-  return data
+export default function getAniApi(dispatch, payload){
+  dispatch(GetAniApiActionPending())
+  axios
+  .get(`https://api.aniapi.com/v1/anime?page=${payload.page}`)
+  .then(res => dispatch(GetAniApiActionSuccess(res.data)))
+  .catch(err => dispatch(GetAniApiActionError(err)))
 }

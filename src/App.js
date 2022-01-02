@@ -2,9 +2,10 @@ import './App.css';
 import NavBar from './Components/NavBar';
 import { useAuth0 } from '@auth0/auth0-react'
 import { Button } from '@mui/material';
-import { makeStyles } from '@mui/styles'
+import { makeStyles, StylesProvider } from '@mui/styles'
 import { useNavigate } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
+//import { StylesProvider } from '@mui/core'
 
 const useStyles = makeStyles({
   heading: {
@@ -40,14 +41,14 @@ function App() {
 
   return (
     <div>
-      {/* {(!isAuthenticated || !tempFix) &&
-        <div className={classes.heading}>
-          <h1>Ayye yo fam !<br/>You gotta login man.</h1>
-          <Button variant="contained" onClick={() => { //loginWithRedirect(); 
-            someFunc()}}>Login</Button>
-        </div>
-      }
-      {(isAuthenticated || tempFix )&& } */}
+    {/* {(!isAuthenticated || !tempFix) &&
+      <div className={classes.heading}>
+        <h1>Ayye yo fam !<br/>You gotta login man.</h1>
+        <Button variant="contained" onClick={() => { //loginWithRedirect(); 
+          someFunc()}}>Login</Button>
+      </div>
+    }
+    {(isAuthenticated || tempFix )&& } */}
       <NavBar/>
     </div>
   );
