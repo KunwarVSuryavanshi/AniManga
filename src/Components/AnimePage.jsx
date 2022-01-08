@@ -4,6 +4,7 @@ import getAniApi from '../Services/GetAniApi.service'
 import { makeStyles } from '@mui/styles'
 import { ImageList, ImageListItem, ImageListItemBar, LinearProgress, Pagination  } from '@mui/material'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const useStyles = makeStyles({
     heading: {
@@ -30,11 +31,17 @@ function AnimePage() {
         }
     })
     const dispatch = useDispatch()
+    const history = useNavigate()
 
     const handleChange = (_, value) => {
         setValue(value)
         setAnimeDetails([])
         getAniApi(dispatch, {page: value})
+    }
+
+    const handleClick = (id) => {
+        console.log(id)
+        history(`/anime/${id}`)
     }
 
     useEffect(() => {
@@ -49,13 +56,13 @@ function AnimePage() {
 
     return (
         <div>
-            {animeDetails?.length < 1 && animeListPending
-                ? <LinearProgress style={{width: '50%', marginLeft: '25%'}}/>
+            {animeDetails?.length < 1 && animeListPending && animeListSuccess
+                ? <LinearProgress style={{width: '50%', marginLeft: '25%', marginTop: '40%'}}/>
                 :<> 
                     <ImageList sx={{width: 'auto', height: 'auto'}} cols={5} gap={18}>
                         {animeDetails?.documents?.map((item, key) => {
                             return(
-                                <ImageListItem key={key} >
+                                <ImageListItem key={key} onClick={() => {handleClick(item.id)}}>
                                     <img
                                         src={`${item.cover_image}?w=248&fit=crop&auto=format`}
                                         srcSet={`${item.cover_image}?w=248&fit=crop&auto=format&dpr=2 2x`}

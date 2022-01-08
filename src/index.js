@@ -10,6 +10,7 @@ import MangaPage from './Components/MangaPage';
 import { Auth0Provider } from '@auth0/auth0-react'
 import { Provider } from 'react-redux'
 import store from './Redux/Store/ConfigStore'
+import AnimeDetails from './Components/AnimeDetails';
 
 const domain = process.env.REACT_APP_AUTH_DOMAIN
 const clientID = process.env.REACT_APP_AUTH_CLIENTID
@@ -27,6 +28,7 @@ ReactDOM.render(
           <Route exact path='/home' element={<HomePage/>}/>
           <Route exact path='/anime' element={<AnimePage/>}/>
           <Route exact path='/manga' element={<MangaPage/>}/>
+          <Route exact path='/anime/:id' element={<AnimeDetails/>}/>
         </Routes>
       </BrowserRouter>
     </Provider>
