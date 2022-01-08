@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import getAniApi from '../Services/GetAniApi.service'
+import {getAniApi, resetAniApi} from '../Services/GetAniApi.service'
 import { makeStyles } from '@mui/styles'
 import { ImageList, ImageListItem, ImageListItemBar, LinearProgress, Pagination  } from '@mui/material'
 import { useDispatch } from 'react-redux'
@@ -34,6 +34,7 @@ function AnimePage() {
     const history = useNavigate()
 
     const handleChange = (_, value) => {
+        resetAniApi(dispatch)
         setValue(value)
         setAnimeDetails([])
         getAniApi(dispatch, {page: value})
@@ -56,8 +57,8 @@ function AnimePage() {
 
     return (
         <div>
-            {animeDetails?.length < 1 && animeListPending && animeListSuccess
-                ? <LinearProgress style={{width: '50%', marginLeft: '25%', marginTop: '40%'}}/>
+            {animeListPending && !animeListSuccess
+                ? <LinearProgress style={{width: '50%', marginLeft: '25%', marginTop: '20%'}}/>
                 :<> 
                     <ImageList sx={{width: 'auto', height: 'auto'}} cols={5} gap={18}>
                         {animeDetails?.documents?.map((item, key) => {
