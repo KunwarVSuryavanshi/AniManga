@@ -3,7 +3,7 @@ import { makeStyles } from '@mui/styles'
 import React, { useState, useEffect } from 'react'
 import getQuotes from '../Services/GetQuotes.service'
 import AnimeFacts from './AnimeFacts'
-
+import RoughSheet from './RoughSheet'
 const useStyles = makeStyles({
     heading: {
         textAlign: 'center',
@@ -58,6 +58,9 @@ function HomePage() {
             }
             <div>
                 <AnimeFacts/>
+            </div>
+            <div>
+                <RoughSheet/>
             </div>
         </div>
     )

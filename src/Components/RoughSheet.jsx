@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
+import { getTop250 } from "../scrapper/randomTest";
 
 export default function RoughSheet() {
   const [event, setEvent] = useState([]);
@@ -31,10 +32,16 @@ export default function RoughSheet() {
     }
   }, [event]);
 
-  console.log("Debounce",debounce)
-  console.log("Delay",delayFunc)
-  console.log("delayFunc3",delayFunc3)
-  console.log("--------------")
+  // console.log("Debounce",debounce)
+  // console.log("Delay",delayFunc)
+  // console.log("delayFunc3",delayFunc3)
+  // console.log("--------------")
+
+  useEffect(() => {
+    getTop250()
+    .then(res => console.log(res))
+  },[])
+
   return (
     <div className="App">
       <button onClick={handleClick}>Click me</button>

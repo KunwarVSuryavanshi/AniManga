@@ -4,6 +4,8 @@ import getAnimeDetails from '../Services/GetAnimeDetails.service'
 import Grid from '@mui/material/Grid';
 import { makeStyles } from '@mui/styles'
 import Chip from '@mui/material/Chip';
+import '../App.css'
+import getEpisode from '../Services/GetEpisode.service';
 
 const useStyles = makeStyles({
   heading: {
@@ -24,6 +26,23 @@ function AnimeDetails() {
     setDesc(!desc)
   }
   
+  const handleEpisodeFetch = (id, anime) => {
+    getEpisode(id, anime)
+    .then(res => console.log(res))
+  }
+
+  const displayEpisodes = (range) => {
+    const epArr = new Array(range).fill(1)
+
+    return epArr.map((_, key) => {
+      return (
+        <>
+         <div style={{display: 'inline-block', padding: '0.7vh 0.4vh'}}><Chip label={key+1} color="primary" variant="outlined" onClick={() => handleEpisodeFetch(key, animeDetails.id)}/></div> 
+        </>
+      )
+    })
+  }
+
   useEffect(() => { 
     getAnimeDetails({id: id})
     .then(res => setAnimeDetails(res))
@@ -60,8 +79,14 @@ function AnimeDetails() {
                 </div>
                 <div className={classes.heading}>
                   Genre:
-                  <div>
-                    {animeDetails?.genres.map(item => <div style={{display: 'inline-block', padding: '0.7vh 0.4vh'}}><Chip label={item} color="success" /></div> )}
+                  <div style={{alignItems: 'center'}}>
+                    {animeDetails?.genres.map(item => <div style={{display: 'inline-block', padding: '0.7vh 0.4vh', alignItems: 'center'}}><Chip label={item} color="success" /></div> )}
+                  </div>
+                </div>
+                <div className={classes.heading}>
+                  Episodes:
+                  <div className='pdT2'>
+                    {displayEpisodes(parseInt(animeDetails?.episodes_count))}
                   </div>
                 </div>
               </div>
