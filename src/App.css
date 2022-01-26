@@ -1,18 +1,46 @@
-/* Padding */
+/*-------------------- Padding ----------------------*/
+
 .pdL2 {
   padding-left: 2vw;
 }
-.pdT2 {
-  padding-top: 2vh !important;
+
+.pdR2 {
+  padding-right: 2vw;
 }
 
-/* Margin */
+.pdT2 {
+  padding-top: 2vh;
+}
 
-/* Font */
-headingFont {
+.pdB2 {
+  padding-bottom: 2vh;
+}
+
+
+/*-------------------- Margin --------------------------- */
+
+.mrT2 {
+  margin-top: 2vh;
+}
+
+.mrB2 {
+  margin-bottom: 2vh;
+}
+
+.mrL2 {
+  margin-left: 2vw;
+}
+
+.mrR2 {
+  margin-right: 2vw;
+} 
+
+/*----------------- Font -------------------------------*/
+
+.headingFont {
   font-family: Fredoka One
 }
 
-subFont {
+.subFont {
   font-family: Sansita Swashed
 }

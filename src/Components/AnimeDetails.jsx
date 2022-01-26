@@ -6,6 +6,8 @@ import { makeStyles } from '@mui/styles'
 import Chip from '@mui/material/Chip';
 import '../App.css'
 import getEpisode from '../Services/GetEpisode.service';
+import { useRef } from 'react';
+import Hls from 'hls.js';
 
 const useStyles = makeStyles({
   heading: {
@@ -20,6 +22,10 @@ function AnimeDetails() {
   const {id} = useParams()
   const [animeDetails, setAnimeDetails] = useState()
   const [desc, setDesc] = useState(false)
+  const [playbackDetails, setPlaybackDetails] = useState()
+
+  const videoPlayer = useRef()
+
   const classes = useStyles()
 
   const handleDescription = () => {
@@ -28,7 +34,10 @@ function AnimeDetails() {
   
   const handleEpisodeFetch = (id, anime) => {
     getEpisode(id, anime)
-    .then(res => console.log(res))
+    .then(res => { 
+      if(res.status_code !== 404)
+        setPlaybackDetails(res.data.documents[id-1])
+    })
   }
 
   const displayEpisodes = (range) => {
@@ -48,7 +57,26 @@ function AnimeDetails() {
     .then(res => setAnimeDetails(res))
   },[])
 
-  
+  useEffect(() => {
+    if(playbackDetails)
+    {
+      if(Hls.isSupported())
+      {
+
+        const hls = new Hls()
+        const url = playbackDetails.video
+        
+        hls.loadSource(url)
+        hls.attachMedia(videoPlayer.current)
+        hls.on(Hls.Events.MANIFEST_PARSED, function() { videoPlayer.current.play(); });
+      }
+      else{
+        alert("Please use modern web browser to play video")
+      }
+
+    }
+  },[playbackDetails])
+
   return (
     <>
       {animeDetails ? 
@@ -71,13 +99,13 @@ function AnimeDetails() {
             </Grid>
             <Grid item xs={10}>
               <div style={{paddingRight: '2vw', paddingLeft: '2vw'}}>
-                <div className = {classes.heading}>
+                <div className = {`${classes.heading} pdT2`}>
                   Description: 
                   <div onClick={handleDescription} className = {classes.quotes} style={{cursor: 'pointer'}}>
                     {animeDetails?.descriptions?.en?.length > 0 ? !desc ?  animeDetails?.descriptions?.en?.substring(0,430)+ '...' : animeDetails?.descriptions?.en : 'NA' }
                   </div>
                 </div>
-                <div className={classes.heading}>
+                <div className={`${classes.heading} pdT2`}>
                   Genre:
                   <div style={{alignItems: 'center'}}>
                     {animeDetails?.genres.map(item => <div style={{display: 'inline-block', padding: '0.7vh 0.4vh', alignItems: 'center'}}><Chip label={item} color="success" /></div> )}
@@ -93,7 +121,17 @@ function AnimeDetails() {
             </Grid>
           </Grid>
           <Grid item xs={4}>
-            
+            {/* <iframe src={playbackDetails.video} title={playbackDetails.title}></iframe> */}
+            {/* <video width="320" height="240" controls>
+              <source src={playbackDetails.video} type="application/x-mpegURL"/>
+              Your browser does not support the video tag.
+
+            </video> */}
+            <video
+              ref={videoPlayer}
+              autoPlay={true}
+              controls={true}
+            />
           </Grid>
           <Grid item xs={8}>
             
@@ -101,10 +139,10 @@ function AnimeDetails() {
         </Grid>
       </div>
       : 
-      <>
+      <div style={{alignItems:'center'}}>
         <h1>Hmmmm.... This shouldn't have happened :/</h1>
         <h3>PLease report about this in our channel</h3>
-      </>
+      </div>
       }  
     </>
   )
