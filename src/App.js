@@ -25,13 +25,8 @@ function App() {
   } = useAuth0()
 
   const navigate = useNavigate()
-
-  const someFunc = () => {
-    navigate('/home');
-  }
+  
   useEffect(() => {
-    console.log("Auth", isAuthenticated)
-    console.log("Loading", isLoading)
     if(isAuthenticated && !isLoading)
     {
       navigate('/home')

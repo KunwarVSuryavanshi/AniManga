@@ -19,7 +19,7 @@ ReactDOM.render(
   <Auth0Provider
     domain={domain}
     clientId={clientID}
-    redirectUri={"http://localhost:3000"}
+    redirectUri={window.location.origin}
   >
     <Provider store={store}>
       <BrowserRouter>
