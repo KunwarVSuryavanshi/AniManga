@@ -1,7 +1,7 @@
 import './App.css';
 import NavBar from './Components/NavBar';
 import { useAuth0 } from '@auth0/auth0-react'
-import { Button } from '@mui/material';
+import { Button, LinearProgress } from '@mui/material';
 import { makeStyles, StylesProvider } from '@mui/styles'
 import { useNavigate } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
@@ -17,39 +17,46 @@ const useStyles = makeStyles({
 
 function App() {
   const classes = useStyles()
-  const [tempFix, setTempFix] = useState(false)
+
   const {
     loginWithRedirect,
-    loginWithPopup,
-    isAuthenticated
+    isAuthenticated,
+    isLoading
   } = useAuth0()
 
   const navigate = useNavigate()
+
   const someFunc = () => {
-    navigate('/home'); setTempFix(true) 
+    navigate('/home');
   }
   useEffect(() => {
-    console.log(isAuthenticated)
-    if(isAuthenticated)
+    console.log("Auth", isAuthenticated)
+    console.log("Loading", isLoading)
+    if(isAuthenticated && !isLoading)
     {
       navigate('/home')
     }
-    else{
-      navigate('/')
-    }
-  }, [isAuthenticated])
-
+  }, [isAuthenticated, isLoading])
   return (
     <div>
-    {/* {(!isAuthenticated || !tempFix) &&
-      <div className={classes.heading}>
-        <h1>Ayye yo fam !<br/>You gotta login man.</h1>
-        <Button variant="contained" onClick={() => { //loginWithRedirect(); 
-          someFunc()}}>Login</Button>
-      </div>
+    {(!isAuthenticated) &&
+      <>
+        {isLoading ?
+        <div style={{paddingTop: '50%', paddingLeft: '50%'}}>
+          <h1 className='headingFont'>Almost there ... </h1>
+          <LinearProgress style={{width: '50%', marginLeft: '25%'}}/>
+        </div> 
+        :
+          <div className={classes.heading}>
+            <h1>Ayye yo fam !<br/>You gotta login man.</h1>
+            <Button variant="contained" onClick={() => loginWithRedirect()}>Login</Button>
+          </div>
+        }
+      </>
     }
-    {(isAuthenticated || tempFix )&& } */}
-      <NavBar/>
+    {(isAuthenticated && !isLoading) && 
+          <NavBar/>
+    }
     </div>
   );
 }
