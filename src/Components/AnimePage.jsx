@@ -17,6 +17,9 @@ const useStyles = makeStyles({
     imgList: {
         borderRadius: '12px'
     },
+    pagination: {
+        paddingLeft: '35%',
+    }
 })
 
 function AnimePage() {
@@ -81,8 +84,8 @@ function AnimePage() {
                             )
                         })}   
                     </ImageList>
-                    <div className={classes.pagination} style={{width: '100%'}}>
-                        <Pagination count={144} variant='outlined' page={value} color='secondary' onChange={handleChange}/>
+                    <div className={classes.pagination} >
+                        <Pagination count={144} variant='outlined' size="large" page={value} color='secondary' onChange={handleChange}/>
                     </div>
                 </>
             }

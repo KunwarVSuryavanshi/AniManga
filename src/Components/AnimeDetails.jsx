@@ -8,6 +8,7 @@ import '../App.css'
 import getEpisode from '../Services/GetEpisode.service';
 import { useRef } from 'react';
 import Hls from 'hls.js';
+import { Modal, Box } from '@mui/material';
 
 const useStyles = makeStyles({
   heading: {
@@ -18,12 +19,20 @@ const useStyles = makeStyles({
   }
 })
 
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 'auto',
+};
+
 function AnimeDetails() {
   const {id} = useParams()
   const [animeDetails, setAnimeDetails] = useState()
   const [desc, setDesc] = useState(false)
   const [playbackDetails, setPlaybackDetails] = useState()
-
+  const [open, setOpen] = useState(false)
   const videoPlayer = useRef()
 
   const classes = useStyles()
@@ -38,6 +47,11 @@ function AnimeDetails() {
       if(res.status_code !== 404)
         setPlaybackDetails(res.data.documents[id-1])
     })
+    setOpen(true)
+  }
+
+  const handleClose = () => {
+    setOpen(false)
   }
 
   const displayEpisodes = (range) => {
@@ -121,17 +135,22 @@ function AnimeDetails() {
             </Grid>
           </Grid>
           <Grid item xs={4}>
-            {/* <iframe src={playbackDetails.video} title={playbackDetails.title}></iframe> */}
-            {/* <video width="320" height="240" controls>
-              <source src={playbackDetails.video} type="application/x-mpegURL"/>
-              Your browser does not support the video tag.
 
-            </video> */}
-            <video
-              ref={videoPlayer}
-              autoPlay={true}
-              controls={true}
-            />
+            <Modal
+              keepMounted
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="keep-mounted-modal-video"
+            >
+              <Box id="keep-mounted-modal-video" sx={style}>
+                <video
+                  id="keep-mounted-modal-video"
+                  ref={videoPlayer}
+                  autoPlay={true}
+                  controls={true}
+                />
+              </Box>
+            </Modal>
           </Grid>
           <Grid item xs={8}>
             
