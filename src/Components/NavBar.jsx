@@ -11,7 +11,13 @@ const useStyles = makeStyles({
         textDecoration: 'none',
         fontFamily: 'Permanent Marker',
         fontSize: '24px',
-        margin: '0vh 0vw 0vh 5vw'
+        margin: '0vh 0vw 0vh 5vw',
+        "&:hover" : {
+            opacity: '0.85',
+            borderBottom: '2px solid',
+            // transform: 'scale(5)',
+            // transition: 'all 1s'
+        }
     },
     linkDiv: {
         float: 'right',

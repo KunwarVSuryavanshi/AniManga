@@ -4,7 +4,7 @@ import {getAniApi, resetAniApi} from '../Services/GetAniApi.service'
 import { makeStyles } from '@mui/styles'
 import { ImageList, ImageListItem, ImageListItemBar, LinearProgress, Pagination  } from '@mui/material'
 import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 const useStyles = makeStyles({
     heading: {
@@ -15,16 +15,19 @@ const useStyles = makeStyles({
         fontFamily: 'Sansita Swashed',
     },
     imgList: {
-        borderRadius: '12px'
+        borderRadius: '12px',
+        cursor: 'pointer'
     },
     pagination: {
         paddingLeft: '35%',
     }
 })
 
-function AnimePage() {
+function AnimePage(props) {
     const [animeDetails, setAnimeDetails] = useState([])
     const [value, setValue] = useState(1)
+    const [searchParam, setSearchParam] = useSearchParams()
+
     const classes = useStyles()
     const { animeList, animeListPending, animeListSuccess } = useSelector(state => { 
         return { 
@@ -37,6 +40,8 @@ function AnimePage() {
     const history = useNavigate()
 
     const handleChange = (_, value) => {
+        // history(`/anime?pg=${value}`)
+        setSearchParam({pg: value})
         resetAniApi(dispatch)
         setValue(value)
         setAnimeDetails([])
@@ -44,14 +49,39 @@ function AnimePage() {
     }
 
     const handleClick = (id) => {
-        console.log(id)
         history(`/anime/${id}`)
     }
 
     useEffect(() => {
-        getAniApi(dispatch, {page: 1})
+        if(searchParam.get('pg') && !animeListPending && animeList?.length < 1)
+        {
+            getAniApi(dispatch, {page: searchParam?.get('pg')})
+            setSearchParam({pg: searchParam?.get('pg')})
+            setValue(parseInt(searchParam?.get('pg')))
+        }
+        else if(!searchParam.get('pg'))
+        {
+            getAniApi(dispatch, {page: 1})
+            setSearchParam({pg: 1})
+            setValue(1)
+        }
     },[])
 
+    useEffect(() => {
+        if(!animeListPending && searchParam.get('pg'))
+        {
+            getAniApi(dispatch, {page: searchParam?.get('pg')})
+            setSearchParam({pg: searchParam?.get('pg')})
+            setValue(parseInt(searchParam?.get('pg')))
+        }
+        else if(!searchParam.get('pg'))
+        {
+            getAniApi(dispatch, {page: 1})
+            setSearchParam({pg: 1})
+            setValue(1)
+        }
+    },[searchParam.get('pg')])
+    
     useEffect(() => {
         if(animeList){
             setAnimeDetails(animeList)

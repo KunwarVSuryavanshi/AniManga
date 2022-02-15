@@ -160,7 +160,7 @@ function AnimeDetails() {
       : 
       <div style={{alignItems:'center'}}>
         <h1>Hmmmm.... This shouldn't have happened :/</h1>
-        <h3>PLease report about this in our channel</h3>
+        <h3>Please report about this in our channel</h3>
       </div>
       }  
     </>

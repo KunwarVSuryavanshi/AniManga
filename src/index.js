@@ -25,10 +25,10 @@ ReactDOM.render(
       <BrowserRouter>
         <App/>
         <Routes>
-          <Route exact path='/home' element={<HomePage/>}/>
-          <Route exact path='/anime' element={<AnimePage/>}/>
-          <Route exact path='/manga' element={<MangaPage/>}/>
-          <Route exact path='/anime/:id' element={<AnimeDetails/>}/>
+          <Route path='/home' element={<HomePage/>}/>
+          <Route path='/anime' element={<AnimePage/>}/>
+          <Route path='/manga' element={<MangaPage/>}/>
+          <Route path='/anime/:id' element={<AnimeDetails/>}/>
         </Routes>
       </BrowserRouter>
     </Provider>

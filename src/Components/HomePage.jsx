@@ -59,9 +59,9 @@ function HomePage() {
             <div>
                 <AnimeFacts/>
             </div>
-            <div>
+            {/* <div>
                 <RoughSheet/>
-            </div>
+            </div> */}
         </div>
     )
 }
