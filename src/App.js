@@ -2,9 +2,9 @@ import './App.css';
 import NavBar from './Components/NavBar';
 import { useAuth0 } from '@auth0/auth0-react'
 import { Button, LinearProgress } from '@mui/material';
-import { makeStyles, StylesProvider } from '@mui/styles'
-import { useNavigate } from 'react-router-dom'
-import React, { useEffect, useState } from 'react'
+import { makeStyles } from '@mui/styles'
+import { useNavigate, useParams, useLocation } from 'react-router-dom'
+import React, { useEffect } from 'react'
 //import { StylesProvider } from '@mui/core'
 
 const useStyles = makeStyles({
@@ -17,6 +17,8 @@ const useStyles = makeStyles({
 
 function App() {
   const classes = useStyles()
+  const url = useParams()
+  const location = useLocation()
 
   const {
     loginWithRedirect,
@@ -27,20 +29,23 @@ function App() {
   const navigate = useNavigate()
   
   useEffect(() => {
-    if(isAuthenticated && !isLoading)
+    if (isAuthenticated && !isLoading)
     {
       navigate('/home')
     }
   }, [isAuthenticated, isLoading])
+
   return (
     <div>
     {(!isAuthenticated) &&
       <>
         {isLoading ?
-        <div style={{paddingTop: '50%', paddingLeft: '50%'}}>
-          <h1 className='headingFont'>Almost there ... </h1>
-          <LinearProgress style={{width: '50%', marginLeft: '25%'}}/>
-        </div> 
+          <div style={{ paddingTop: '10%'}}>
+            <h1 className='headingFont' style={{ justifyContent: 'center', display: 'flex' }}>Almost there ... </h1>
+            <div style={{display: 'flex', justifyContent: 'center',}}>
+              <LinearProgress style={{ width: '50%', }} />
+            </div>
+          </div> 
         :
           <div className={classes.heading}>
             <h1>Ayye yo fam !<br/>You gotta login man.</h1>

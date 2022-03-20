@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import getAnimeDetails from '../Services/GetAnimeDetails.service'
 import Grid from '@mui/material/Grid';
 import { makeStyles } from '@mui/styles'
@@ -9,6 +9,7 @@ import getEpisode from '../Services/GetEpisode.service';
 import { useRef } from 'react';
 import Hls from 'hls.js';
 import { Modal, Box } from '@mui/material';
+import axios from 'axios'
 
 const useStyles = makeStyles({
   heading: {
@@ -36,6 +37,8 @@ function AnimeDetails() {
   const videoPlayer = useRef()
 
   const classes = useStyles()
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const handleDescription = () => {
     setDesc(!desc)
@@ -73,7 +76,7 @@ function AnimeDetails() {
 
   useEffect(() => {
     if(playbackDetails)
-    {
+    { 
       if(Hls.isSupported())
       {
 
