@@ -39,6 +39,7 @@ function AnimeDetails() {
   const classes = useStyles()
   const navigate = useNavigate()
   const location = useLocation()
+  delete window.document.referrer;
 
   const handleDescription = () => {
     setDesc(!desc)
