@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import getAnimeDetails from '../Services/GetAnimeDetails.service'
 import Grid from '@mui/material/Grid';
 import { makeStyles } from '@mui/styles'
@@ -9,7 +9,8 @@ import getEpisode from '../Services/GetEpisode.service';
 import { useRef } from 'react';
 import Hls from 'hls.js';
 import { Modal, Box } from '@mui/material';
-import axios from 'axios'
+import axios from 'axios';
+import getHls from '../Services/GetHLS.service';
 
 const useStyles = makeStyles({
   heading: {
@@ -37,8 +38,6 @@ function AnimeDetails() {
   const videoPlayer = useRef()
 
   const classes = useStyles()
-  const navigate = useNavigate()
-  const location = useLocation()
   delete window.document.referrer;
 
   const handleDescription = () => {
@@ -72,19 +71,30 @@ function AnimeDetails() {
 
   useEffect(() => { 
     getAnimeDetails({id: id})
-    .then(res => setAnimeDetails(res))
+      .then(res => setAnimeDetails(res))// eslint-disable-next-line
   },[])
 
   useEffect(() => {
     if(playbackDetails)
     { 
+      console.log("Playback--->",playbackDetails)
       if(Hls.isSupported())
       {
 
         const hls = new Hls()
         const url = playbackDetails.video
-        
-        hls.loadSource(url)
+
+        const proxy_url = 'http://192.168.0.114:4000'
+        const video_url = playbackDetails.video
+        const referer_url = playbackDetails.video_headers.referer
+        const file_extension = '.m3u8'
+
+        const hls_proxy_url = `${proxy_url}/${btoa(`${video_url}|${referer_url}`)}${file_extension}`
+
+        getHls(hls_proxy_url)
+        .then(res => console.log(res))
+        console.log("PROXY--->",hls_proxy_url)
+        hls.loadSource(hls_proxy_url)
         hls.attachMedia(videoPlayer.current)
         hls.on(Hls.Events.MANIFEST_PARSED, function() { videoPlayer.current.play(); });
       }
@@ -108,10 +118,10 @@ function AnimeDetails() {
             />
           </Grid>
           <Grid container>
-            <Grid item xs={2}>
+              <Grid item xs={2}> 
               <img
                 src={animeDetails?.cover_image}
-                alt={'Cover Image'}
+                alt={'Cover'}
                 style={{width: '100%', paddingLeft: '0.5vw'}}
               />
             </Grid>

@@ -1,14 +1,14 @@
 import { Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import getAnimeFacts from '../Services/GetAnimeFacts.service'
+import React, { useEffect } from 'react'
+// import getAnimeFacts from '../Services/GetAnimeFacts.service'
 
 function AnimeFacts() {
-  const [facts, setFacts] = useState('')
+  // const [facts, setFacts] = useState('')
   
   useEffect(() => {
-    let data = getAnimeFacts()
+    //let data = getAnimeFacts()
     // let data = async () => { await getAnimeFacts()}
-    setFacts(data)
+    // setFacts(data)
   },[])
 
   return (

@@ -22,14 +22,14 @@ export default function RoughSheet() {
       timer3 = setTimeout(() => console.log("Hello timeout3"), 2000);
     };
   }, []);
-
+// eslint-disable-next-line
   const debounce = useCallback(delayFunc(), []);
 
   useEffect(() => {
     if (event?.length > 0) {
       debounce();
       delayFunc3()();
-    }
+    }// eslint-disable-next-line
   }, [event]);
 
   // console.log("Debounce",debounce)

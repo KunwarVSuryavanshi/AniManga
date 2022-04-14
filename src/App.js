@@ -3,7 +3,7 @@ import NavBar from './Components/NavBar';
 import { useAuth0 } from '@auth0/auth0-react'
 import { Button, LinearProgress } from '@mui/material';
 import { makeStyles } from '@mui/styles'
-import { useNavigate, useParams, useLocation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import React, { useEffect } from 'react'
 //import { StylesProvider } from '@mui/core'
 
@@ -17,8 +17,8 @@ const useStyles = makeStyles({
 
 function App() {
   const classes = useStyles()
-  const url = useParams()
-  const location = useLocation()
+  // const url = useParams()
+  // const location = useLocation()
 
   const {
     loginWithRedirect,
@@ -33,6 +33,7 @@ function App() {
     {
       navigate('/home')
     }
+    // eslint-disable-next-line
   }, [isAuthenticated, isLoading])
 
   return (

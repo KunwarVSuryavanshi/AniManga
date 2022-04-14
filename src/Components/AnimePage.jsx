@@ -64,7 +64,7 @@ function AnimePage(props) {
             getAniApi(dispatch, {page: 1})
             setSearchParam({pg: 1})
             setValue(1)
-        }
+        }// eslint-disable-next-line
     },[])
 
     useEffect(() => {
@@ -79,7 +79,7 @@ function AnimePage(props) {
             getAniApi(dispatch, {page: 1})
             setSearchParam({pg: 1})
             setValue(1)
-        }
+        }// eslint-disable-next-line
     },[searchParam.get('pg')])
     
     useEffect(() => {
